@@ -392,7 +392,8 @@ class BaseKnowledge(BaseLlamaPack):
 
             # documents = general_reader.load_data(num_workers=os.cpu_count())
             documents = general_reader.load_data()
-        except ValueError:
+        except ValueError as e:
+            print(f"读取文件异常={e}")
             documents = []
         return documents
 

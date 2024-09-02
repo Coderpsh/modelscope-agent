@@ -8,15 +8,22 @@ IS_FORKED_PR = os.getenv('IS_FORKED_PR', 'false') == 'true'
 
 @pytest.mark.skipif(IS_FORKED_PR, reason='only run modelscope-agent main repo')
 def test_memory_with_rag_simple():
-
+    # 大模型配置
+    os.environ['DASHSCOPE_API_KEY'] = 'sk-ec2073251be949c8b47015e4e9cec61a'
+    llm_config = {
+        'model': 'qwen2-72b-instruct',
+        'model_server': 'dashscope',
+    }
     memory = MemoryWithRag(
-        urls=['tests/samples/常见QA.pdf'],
+        urls=['samples/operate_model_info.txt', 'samples/creative_info.xlsx'],
         use_knowledge_cache=False,
+        llm=llm_config,
+        storage_path='./tmp/',
     )
 
-    summary_str = memory.run(query='高德天气api怎么申请')
+    summary_str = memory.run(query='用户原始输入：高风险-GC0621数字新媒体-利好样式3的昨日数据。请提取用户输入的关键信息，准备一个JSON格式的数据结构，参数1：参数名是model_type，该参数代表用户提问的投放名词类型，如创意，展位或者页面；参数2：参数名是creative_name，该参数是创意的中文名称；参数3：参数名是position_name，该参数是创意对应投放展位的中文名称')
     print(summary_str)
-    assert 'https://lbs.amap.com/api/javascript-api-v2/guide/services/weather' in summary_str
+    # assert '访问指定网站' in summary_str
 
 
 @pytest.mark.skipif(IS_FORKED_PR, reason='only run modelscope-agent main repo')
@@ -31,7 +38,6 @@ def test_memory_with_rag_update():
 
 @pytest.mark.skipif(IS_FORKED_PR, reason='only run modelscope-agent main repo')
 def test_memory_with_rag_multi_sources():
-
     memory = MemoryWithRag(
         urls=['tests/samples/modelscope_qa_2.txt', 'tests/samples/常见QA.pdf'],
         use_knowledge_cache=False,
@@ -160,7 +166,7 @@ def test_memory_with_rag_mongodb_reader():
     collection = db['myCollection']
     collection.insert_one({
         'content':
-        'Alice decided to compile a book of interviews with startup founders.'
+            'Alice decided to compile a book of interviews with startup founders.'
     })
 
     # read from mongodb

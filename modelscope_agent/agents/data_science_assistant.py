@@ -324,10 +324,10 @@ class DataScienceAssistant(RolePlay):
         tasks_text = ''
         messages = [{
             'role':
-            'user',
+                'user',
             'content':
-            PLAN_TEMPLATE.format(
-                context='User Request: ' + user_request + '\n', )
+                PLAN_TEMPLATE.format(
+                    context='User Request: ' + user_request + '\n', )
         }]
         while not call_llm_success and call_llm_count < 10:
             resp = self._call_llm(prompt=None, messages=messages, stop=None)
@@ -597,8 +597,8 @@ class DataScienceAssistant(RolePlay):
         if 'incorrect' in judge_result.split('\n')[-1]:
             success = False
             failed_reason = (
-                'Though the code executes successfully, The code logic is incorrect, here is the reason: '
-                + judge_result)
+                    'Though the code executes successfully, The code logic is incorrect, here is the reason: '
+                    + judge_result)
             return success, failed_reason
 
         else:
@@ -608,9 +608,9 @@ class DataScienceAssistant(RolePlay):
         before_time = time.time()
         try:
             self.streamlit = kwargs.get('streamlit', False)
-            if self.streamlit:
-                st.write("""# DataScience Assistant """)
-                st.write("""### The user request is: \n""")
+            if self.streamlit:  # 是否使用了streamlit
+                st.write("""# 数据助手 """)
+                st.write("""### 用户的问题是: \n""")
                 st.write(user_request)
             print('streamlit: ', self.streamlit)
             self.plan = self._update_plan(user_request=user_request)
@@ -642,7 +642,7 @@ class DataScienceAssistant(RolePlay):
                     temp_code_interpreter.call(
                         params=json.dumps({
                             'code':
-                            self._get_previous_code_blocks_without_outputs()
+                                self._get_previous_code_blocks_without_outputs()
                         }),
                         nb_mode=True,
                         silent_mode=True)
@@ -668,7 +668,7 @@ class DataScienceAssistant(RolePlay):
                         html_exporter_with_figs = HTMLExporter(config=c)
                         (html, resources_with_fig
                          ) = html_exporter_with_figs.from_notebook_node(
-                             st_notebook)
+                            st_notebook)
                         st.write(
                             'We have generated the code for the current task')
                         st.html(html)

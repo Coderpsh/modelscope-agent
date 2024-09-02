@@ -1,5 +1,6 @@
 # this code is originally from https://github.com/geekan/MetaGPT
 from pydantic import BaseModel
+from typing import List
 
 
 class ToolSchema(BaseModel):
@@ -11,4 +12,4 @@ class Tool(BaseModel):
     path: str
     schemas: dict = {}
     code: str = ''
-    tags: list[str] = []
+    tags: List[str] = []

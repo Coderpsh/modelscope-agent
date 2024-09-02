@@ -7,7 +7,7 @@ import os
 import re
 import time
 from pathlib import Path
-from typing import Dict, Literal, Optional, Tuple
+from typing import Dict, Literal, Optional, Tuple, List
 
 import json
 import json5
@@ -125,7 +125,7 @@ class CodeInterpreter(BaseTool):
         return result
 
     def parse_outputs(self,
-                      outputs: list[str],
+                      outputs: List[str],
                       keep_len: int = 20000) -> Tuple[bool, str]:
         """Parses the outputs received from notebook execution."""
         assert isinstance(outputs, list)

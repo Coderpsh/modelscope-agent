@@ -2,7 +2,7 @@
 import ast
 import inspect
 import re
-from typing import Tuple
+from typing import Tuple, List
 
 
 class DocstringParser:
@@ -46,7 +46,7 @@ def remove_spaces(text):
     return re.sub(r'\s+', ' ', text).strip() if text else ''
 
 
-def convert_code_to_tool_schema(obj, include: list[str] = None) -> dict:
+def convert_code_to_tool_schema(obj, include: List[str] = None) -> dict:
     """Converts an object (function or class) to a tool schema by inspecting the object"""
     docstring = inspect.getdoc(obj)
     # assert docstring, "no docstring found for the objects, skip registering"
@@ -75,7 +75,7 @@ def convert_code_to_tool_schema(obj, include: list[str] = None) -> dict:
     return schema
 
 
-def convert_code_to_tool_schema_ast(code: str) -> list[dict]:
+def convert_code_to_tool_schema_ast(code: str) -> List[dict]:
     """Converts a code string to a list of tool schemas by parsing the code with AST"""
 
     visitor = CodeVisitor(code)
